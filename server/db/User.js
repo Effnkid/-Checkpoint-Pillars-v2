@@ -26,6 +26,13 @@ User.findUnassignedStudents = async function () {
   return await User.findAll({ where: { mentorId: null, userType: `STUDENT` } });
 };
 
+User.findTeachersAndMentees = async function () {
+  return await User.findAll({
+    include: `mentees`,
+    where: { mentorId: null, userType: `TEACHER` },
+  });
+};
+
 /**
  * We've created the association for you!
  *
