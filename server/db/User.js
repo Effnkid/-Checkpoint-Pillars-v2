@@ -20,6 +20,18 @@ const User = db.define('user', {
       isIn: [['STUDENT', 'TEACHER']],
     },
   },
+  isStudent: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return this.userType === `STUDENT`;
+    },
+  },
+  isTeacher: {
+    type: Sequelize.VIRTUAL,
+    get() {
+      return this.userType === `TEACHER`;
+    },
+  },
 });
 
 User.findUnassignedStudents = async function () {
