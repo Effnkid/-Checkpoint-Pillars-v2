@@ -36,7 +36,6 @@ router.get('/teachers', async (req, res, next) => {
   }
 });
 
-//(\\d+)
 router
   .delete(`/:id`, async (req, res, next) => {
     try {

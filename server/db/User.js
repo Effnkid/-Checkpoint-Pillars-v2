@@ -64,11 +64,6 @@ User.beforeUpdate(async (user, option) => {
   }
 });
 
-// User.beforeValidate((user) => {
-//   if (user.mentorId) {
-//     throw new Error();
-//   }
-// });
 /**
  * We've created the association for you!
  *
