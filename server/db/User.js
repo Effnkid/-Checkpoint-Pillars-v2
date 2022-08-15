@@ -33,7 +33,7 @@ const User = db.define('user', {
     },
   },
 });
-
+// class methods
 User.findUnassignedStudents = async function () {
   return await User.findAll({ where: { mentorId: null, userType: `STUDENT` } });
 };
@@ -45,6 +45,30 @@ User.findTeachersAndMentees = async function () {
   });
 };
 
+// hooks
+
+User.beforeUpdate(async (user, option) => {
+  // check options params for what is being updated
+  if (option.fields[0] === `mentorId`) {
+    const find = await User.findByPk(user.mentorId);
+    if (find.userType === `STUDENT` && user.userType === `STUDENT`) {
+      throw new Error();
+    }
+  } else if (option.fields[0] === `userType`) {
+    const count = await user.countMentees(); // if user is a teacher and has mentee
+    if (user.mentorId) {
+      throw new Error();
+    } else if (count > 0) {
+      throw new Error();
+    }
+  }
+});
+
+// User.beforeValidate((user) => {
+//   if (user.mentorId) {
+//     throw new Error();
+//   }
+// });
 /**
  * We've created the association for you!
  *
