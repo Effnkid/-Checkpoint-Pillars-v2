@@ -44,6 +44,16 @@ User.findTeachersAndMentees = async function () {
     where: { mentorId: null, userType: `TEACHER` },
   });
 };
+// instance method (Extra Credit)
+User.prototype.getPeers = async function () {
+  return await User.findAll({
+    where: {
+      mentorId: this.mentorId,
+      userType: `STUDENT`,
+      [Sequelize.Op.not]: [{ id: this.id }],
+    },
+  });
+};
 
 // hooks
 
